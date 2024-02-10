@@ -1,6 +1,10 @@
 import request from 'supertest';
 
 import { app } from '../../../app';
+import {
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_PAGINATION_OFFSET,
+} from '../../../utils';
 
 // TODO: move mock data do another file
 const mockedMovie = {
@@ -24,7 +28,10 @@ describe('Routes - Movies v1', () => {
     it('should return paginated movies', async () => {
       const response = await request(app)
         .get('/api/v1/movies')
-        .query({ offset: 0, limit: 10 });
+        .query({
+          offset: DEFAULT_PAGINATION_OFFSET,
+          limit: DEFAULT_PAGINATION_LIMIT,
+        });
 
       expect(response.status).toEqual(200);
       expect(response.body).toHaveProperty('items');
@@ -36,7 +43,7 @@ describe('Routes - Movies v1', () => {
     it('should NOT return paginated movies with empty offset', async () => {
       const response = await request(app)
         .get('/api/v1/movies')
-        .query({ limit: 10 });
+        .query({ limit: DEFAULT_PAGINATION_LIMIT });
 
       expect(response.status).toEqual(400);
       expect(response.body).toHaveProperty('error');
@@ -47,7 +54,7 @@ describe('Routes - Movies v1', () => {
     it('should NOT return paginated movies with empty limit', async () => {
       const response = await request(app)
         .get('/api/v1/movies')
-        .query({ offset: 0 });
+        .query({ offset: DEFAULT_PAGINATION_OFFSET });
 
       expect(response.status).toEqual(400);
       expect(response.body).toHaveProperty('error');
@@ -58,7 +65,7 @@ describe('Routes - Movies v1', () => {
     it('should NOT return paginated movies with invalid offset', async () => {
       const response = await request(app)
         .get('/api/v1/movies')
-        .query({ offset: -1, limit: 10 });
+        .query({ offset: -1, limit: DEFAULT_PAGINATION_LIMIT });
 
       expect(response.status).toEqual(400);
       expect(response.body).toHaveProperty('error');
@@ -69,7 +76,7 @@ describe('Routes - Movies v1', () => {
     it('should NOT return paginated movies with invalid limit', async () => {
       const response = await request(app)
         .get('/api/v1/movies')
-        .query({ offset: 0, limit: 301 });
+        .query({ offset: DEFAULT_PAGINATION_OFFSET, limit: 301 });
 
       expect(response.status).toEqual(400);
       expect(response.body).toHaveProperty('error');
@@ -90,7 +97,12 @@ describe('Routes - Movies v1', () => {
       async ({ field, value }) => {
         const response = await request(app)
           .get('/api/v1/movies/search')
-          .query({ field, value, offset: 0, limit: 10 });
+          .query({
+            field,
+            value,
+            offset: DEFAULT_PAGINATION_OFFSET,
+            limit: DEFAULT_PAGINATION_LIMIT,
+          });
 
         expect(response.status).toEqual(200);
         expect(response.body).toHaveProperty('items');
@@ -114,7 +126,12 @@ describe('Routes - Movies v1', () => {
       async ({ field, value }) => {
         const response = await request(app)
           .get('/api/v1/movies/search')
-          .query({ field, value, offset: 0, limit: 10 });
+          .query({
+            field,
+            value,
+            offset: DEFAULT_PAGINATION_OFFSET,
+            limit: DEFAULT_PAGINATION_LIMIT,
+          });
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('error');
@@ -124,11 +141,31 @@ describe('Routes - Movies v1', () => {
     );
 
     it.each([
-      { offset: undefined, limit: 10, reason: 'with empty offset' },
-      { offset: 0, limit: undefined, reason: 'with empty limit' },
-      { offset: -1, limit: 10, reason: 'with invalid offset [-1]' },
-      { offset: 0, limit: 9, reason: 'with invalid limit [9]' },
-      { offset: 0, limit: 301, reason: 'with invalid limit [301]' },
+      {
+        offset: undefined,
+        limit: DEFAULT_PAGINATION_LIMIT,
+        reason: 'with empty offset',
+      },
+      {
+        offset: DEFAULT_PAGINATION_OFFSET,
+        limit: undefined,
+        reason: 'with empty limit',
+      },
+      {
+        offset: -1,
+        limit: DEFAULT_PAGINATION_LIMIT,
+        reason: 'with invalid offset [-1]',
+      },
+      {
+        offset: DEFAULT_PAGINATION_OFFSET,
+        limit: 9,
+        reason: 'with invalid limit [9]',
+      },
+      {
+        offset: DEFAULT_PAGINATION_OFFSET,
+        limit: 301,
+        reason: 'with invalid limit [301]',
+      },
     ])(
       'should NOT return paginated movies $reason',
       async ({ offset, limit }) => {
