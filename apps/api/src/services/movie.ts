@@ -1,15 +1,15 @@
+import { asc, desc, eq, like } from 'drizzle-orm';
+
+import { db } from '../db';
+import { Movie, movie, type MovieShowId, NewMovie } from '../schemas';
 import {
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
-  type PaginationParams,
   getCount,
+  type PaginationParams,
 } from '../utils';
-import { Movie, NewMovie, movie } from '../schemas';
-import { asc, desc, eq, like } from 'drizzle-orm';
-import { db } from '../db';
 
 type SearchParams = PaginationParams & { field: keyof Movie; value: string };
-type RemoveParams = { showId: NonNullable<Movie['showId']> };
 
 export class MovieService {
   async findAll(params: PaginationParams) {
@@ -21,11 +21,22 @@ export class MovieService {
 
     const totalItems = await getCount({ table: movie });
     const items = await db
-      .select()
+      .select({
+        showId: movie.showId,
+        type: movie.type,
+        title: movie.title,
+        duration: movie.duration,
+        description: movie.description,
+        releaseYear: movie.releaseYear,
+      })
       .from(movie)
       .offset(offset)
       .limit(limit)
-      .orderBy(sort && sort === 'desc' ? desc(movie.title) : asc(movie.title));
+      .orderBy(
+        sort && sort === 'desc'
+          ? desc(movie.releaseYear)
+          : asc(movie.releaseYear),
+      );
 
     return {
       items,
@@ -33,6 +44,10 @@ export class MovieService {
       limit,
       total: totalItems.value,
     };
+  }
+
+  async findById(showId: MovieShowId) {
+    return await db.select().from(movie).where(eq(movie.showId, showId));
   }
 
   async search(params: SearchParams) {
@@ -49,7 +64,14 @@ export class MovieService {
       condition,
     });
     const items = await db
-      .select()
+      .select({
+        showId: movie.showId,
+        type: movie.type,
+        title: movie.title,
+        duration: movie.duration,
+        description: movie.description,
+        releaseYear: movie.releaseYear,
+      })
       .from(movie)
       .where(condition)
       .offset(offset)
@@ -79,9 +101,7 @@ export class MovieService {
       .where(eq(movie.showId, showId!));
   }
 
-  async remove(params: RemoveParams) {
-    const { showId } = params;
-
+  async remove(showId: MovieShowId) {
     return await db.delete(movie).where(eq(movie.showId, showId));
   }
 }

@@ -1,5 +1,5 @@
-import { index, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
 import { createId } from '@paralleldrive/cuid2';
+import { index, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const movie = pgTable(
   'movie',
@@ -27,3 +27,4 @@ export const movie = pgTable(
 
 export type Movie = typeof movie.$inferSelect; // return type when queried
 export type NewMovie = typeof movie.$inferInsert; // insert type
+export type MovieShowId = NonNullable<Movie['showId']>;

@@ -1,12 +1,13 @@
-import { PaginationValidator } from './common';
 import { z } from 'zod';
+
+import { PaginationValidator } from './common';
 
 export const SearchValidator = PaginationValidator.extend({
   field: z.enum(['title', 'director', 'cast', 'country']),
   value: z.string().min(3),
 });
 
-export const NewMovieValidator = z.object({
+export const MovieValidator = z.object({
   type: z.enum(['Movie', 'TV Show']),
   title: z.string(),
   director: z.string(),

@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
 import { createId } from '@paralleldrive/cuid2';
+import { NextFunction, Request, Response } from 'express';
+
 import { logger } from '../lib';
 
 export function networkTracer(req: Request, res: Response, next: NextFunction) {

@@ -19,13 +19,19 @@ module.exports = {
         sourceType: 'script',
       },
     },
+    {
+      files: ['**/**/*.test.ts'],
+      env: {
+        jest: true,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'drizzle'],
+  plugins: ['@typescript-eslint', 'drizzle', 'simple-import-sort'],
   rules: {
     '@typescript-eslint/no-unused-vars': [
       'error',
@@ -39,17 +45,9 @@ module.exports = {
     // Enforce using "type" instead of "interface"
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
 
-    // See https://eslint.org/docs/latest/rules/sort-imports
-    'sort-imports': [
-      'error',
-      {
-        ignoreCase: false,
-        ignoreDeclarationSort: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-        allowSeparatedGroups: false,
-      },
-    ],
+    // Sort imports - See https://github.com/lydell/eslint-plugin-simple-import-sort/
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
 
     // [Drizzle] - See https://www.npmjs.com/package/eslint-plugin-drizzle
     'drizzle/enforce-delete-with-where': [

@@ -1,12 +1,13 @@
+import express, { NextFunction, Request, Response } from 'express';
+
+import { logger } from '../../lib';
+import { MovieService } from '../../services';
 import {
   MovieIdValidator,
-  NewMovieValidator,
+  MovieValidator,
   PaginationValidator,
   SearchValidator,
 } from '../../validators';
-import express, { NextFunction, Request, Response } from 'express';
-import { MovieService } from '../../services';
-import { logger } from '../../lib';
 
 export const router = express.Router();
 
@@ -35,11 +36,25 @@ router.get(
   },
 );
 
+router.get(
+  '/:showId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { showId } = MovieIdValidator.parse(req.params);
+      const [data] = await new MovieService().findById(showId);
+
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const requestId = res.getHeader('X-Request-Id');
 
-    const movie = NewMovieValidator.parse(req.body);
+    const movie = MovieValidator.parse(req.body);
     const [newMovie] = await new MovieService().add(movie);
 
     logger.info(
@@ -59,9 +74,9 @@ router.put(
     try {
       const requestId = res.getHeader('X-Request-Id');
 
-      const params = MovieIdValidator.parse(req.params);
-      const movie = NewMovieValidator.parse(req.body);
-      await new MovieService().update({ ...params, ...movie });
+      const { showId } = MovieIdValidator.parse(req.params);
+      const movie = MovieValidator.parse(req.body);
+      await new MovieService().update({ showId, ...movie });
 
       logger.info({ request: { id: requestId } }, 'Movie updated');
 
@@ -78,8 +93,8 @@ router.delete(
     try {
       const requestId = res.getHeader('X-Request-Id');
 
-      const params = MovieIdValidator.parse(req.params);
-      await new MovieService().remove(params);
+      const { showId } = MovieIdValidator.parse(req.params);
+      await new MovieService().remove(showId);
 
       logger.info({ request: { id: requestId } }, 'Movie deleted');
 

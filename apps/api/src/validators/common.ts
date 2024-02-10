@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { DEFAULT_PAGINATION_LIMIT } from '../utils';
+
 export const PaginationValidator = z.object({
   offset: z
     .string()
@@ -8,6 +10,12 @@ export const PaginationValidator = z.object({
   limit: z
     .string()
     .transform(val => parseInt(val))
-    .pipe(z.number().min(10).default(10)),
+    .pipe(
+      z
+        .number()
+        .min(DEFAULT_PAGINATION_LIMIT)
+        .max(300)
+        .default(DEFAULT_PAGINATION_LIMIT),
+    ),
   sort: z.string().optional().default('asc'),
 });
