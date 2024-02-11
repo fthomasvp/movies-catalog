@@ -198,7 +198,7 @@ describe('Routes - Movies v1', () => {
         .post('/api/v1/movies')
         .send(mockedMovie);
 
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(422);
       expect(response.body).toHaveProperty('error');
       expect(response.body).toHaveProperty('error.type', 'PostgresError');
     });

@@ -49,7 +49,7 @@ export function errorHandler(
 
   if (err instanceof PostgresError) {
     logger.error({ request, error: err.stack }, 'Invalid database operation');
-    res.status(400).json({ error: { type: err.name, message: err.message } });
+    res.status(422).json({ error: { type: err.name, message: err.message } });
 
     return;
   }
