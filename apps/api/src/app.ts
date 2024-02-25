@@ -3,7 +3,7 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 
 import { errorHandler, networkTracer } from './middlewares';
-import { moviesRouterV1 } from './routes/v1';
+import { moviesRouterV1, usersRouterV1 } from './routes/v1';
 
 export const app: Express = express();
 
@@ -26,6 +26,7 @@ app.use(networkTracer);
  * Because it will trigger middlewares from both routes.
  * */
 app.use('/api/v1/movies', moviesRouterV1);
+app.use('/api/v1/users', usersRouterV1);
 
 // [Error Handlers]
 app.use(errorHandler);

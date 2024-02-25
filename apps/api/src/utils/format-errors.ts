@@ -1,6 +1,8 @@
 import { ZodError } from 'zod';
 
 export const formatZodError = (error: ZodError) => {
+  console.log('> error', error);
+
   const [issue] = error.issues;
   const code = issue.code.replace(/_/g, ' ');
   const message = issue.message.toLowerCase();
@@ -10,5 +12,9 @@ export const formatZodError = (error: ZodError) => {
     return `${code}: expected '${issue.expected}' but got '${issue.received}' on the '${path}' property`;
   }
 
-  return `${code}: ${message} on the '${path}' property`;
+  if (path) {
+    return `${code}: ${message} on the '${path}' property`;
+  }
+
+  return `${code}: ${message}`;
 };

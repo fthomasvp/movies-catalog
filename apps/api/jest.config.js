@@ -3,7 +3,12 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   // See https://jestjs.io/docs/configuration#testpathignorepatterns-arraystring
-  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/dist/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/dist/',
+    '/data/',
+    '/utils/',
+  ],
   forceExit: true,
   // clearMocks: true,
   // resetMocks: true,

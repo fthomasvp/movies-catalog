@@ -19,3 +19,9 @@ export const PaginationValidator = z.object({
     ),
   sort: z.string().optional().default('asc'),
 });
+
+export const validateCUID2 = (id: string) => {
+  const cuid2 = z.string().cuid2();
+
+  return cuid2.parse(id);
+};
