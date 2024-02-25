@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { PaginationValidator } from './common';
 
-export const SearchValidator = PaginationValidator.extend({
+export const MovieSearchValidator = PaginationValidator.extend({
   field: z.enum(['title', 'director', 'cast', 'country']),
   value: z.string().min(3),
 });
@@ -34,8 +34,4 @@ export const MovieValidator = z.object({
   duration: z.string(),
   listedIn: z.string(),
   description: z.string(),
-});
-
-export const MovieIdValidator = z.object({
-  showId: z.string().cuid2(),
 });

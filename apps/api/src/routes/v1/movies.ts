@@ -3,10 +3,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import { logger } from '../../lib';
 import { MovieService } from '../../services';
 import {
-  MovieIdValidator,
+  MovieSearchValidator,
   MovieValidator,
   PaginationValidator,
-  SearchValidator,
+  validateCUID2,
 } from '../../validators';
 
 export const router = express.Router();
@@ -26,7 +26,7 @@ router.get(
   '/search',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const query = SearchValidator.parse(req.query);
+      const query = MovieSearchValidator.parse(req.query);
       const data = await new MovieService().search(query);
 
       res.status(200).json(data);
@@ -40,8 +40,14 @@ router.get(
   '/:showId',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { showId } = MovieIdValidator.parse(req.params);
+      const showId = validateCUID2(req.params.showId);
       const [data] = await new MovieService().findById(showId);
+
+      if (!data) {
+        logger.warn({ showId }, 'Movie not found');
+
+        return res.status(404).send();
+      }
 
       res.status(200).json(data);
     } catch (error) {
@@ -53,14 +59,14 @@ router.get(
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const requestId = res.getHeader('X-Request-Id');
+    const request = {
+      id: requestId,
+    };
 
     const movie = MovieValidator.parse(req.body);
     const [newMovie] = await new MovieService().add(movie);
 
-    logger.info(
-      { request: { id: requestId }, payload: { ...newMovie } },
-      'Movie created',
-    );
+    logger.info({ request, payload: { ...newMovie } }, 'Movie created');
 
     res.status(201).json(newMovie);
   } catch (error) {
@@ -73,12 +79,24 @@ router.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');
+      const request = {
+        id: requestId,
+      };
 
-      const { showId } = MovieIdValidator.parse(req.params);
+      const showId = validateCUID2(req.params.showId);
       const movie = MovieValidator.parse(req.body);
-      await new MovieService().update({ showId, ...movie });
+      const [updatedMovie] = await new MovieService().update({
+        showId,
+        ...movie,
+      });
 
-      logger.info({ request: { id: requestId } }, 'Movie updated');
+      if (!updatedMovie?.showId) {
+        logger.warn({ request }, 'Movie not found');
+
+        return res.status(404).send();
+      }
+
+      logger.info({ request }, 'Movie updated');
 
       res.status(204).send();
     } catch (error) {
@@ -92,11 +110,20 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');
+      const request = {
+        id: requestId,
+      };
 
-      const { showId } = MovieIdValidator.parse(req.params);
-      await new MovieService().remove(showId);
+      const showId = validateCUID2(req.params.showId);
+      const [deletedMovie] = await new MovieService().remove(showId);
 
-      logger.info({ request: { id: requestId } }, 'Movie deleted');
+      if (!deletedMovie?.showId) {
+        logger.warn({ request }, 'Movie not found');
+
+        return res.status(404).send();
+      }
+
+      logger.info({ request }, 'Movie deleted');
 
       res.status(204).send();
     } catch (error) {

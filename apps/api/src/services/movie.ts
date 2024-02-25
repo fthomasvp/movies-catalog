@@ -1,7 +1,7 @@
 import { asc, desc, eq, like } from 'drizzle-orm';
 
 import { db } from '../db';
-import { Movie, movie, type MovieShowId, NewMovie } from '../schemas';
+import { type Movie, movie, type MovieShowId, type NewMovie } from '../schemas';
 import {
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
@@ -9,7 +9,10 @@ import {
   type PaginationParams,
 } from '../utils';
 
-type SearchParams = PaginationParams & { field: keyof Movie; value: string };
+type MovieSearchParams = PaginationParams & {
+  field: keyof Movie;
+  value: string;
+};
 
 export class MovieService {
   async findAll(params: PaginationParams) {
@@ -50,7 +53,7 @@ export class MovieService {
     return await db.select().from(movie).where(eq(movie.showId, showId));
   }
 
-  async search(params: SearchParams) {
+  async search(params: MovieSearchParams) {
     const {
       field,
       value,
@@ -98,10 +101,14 @@ export class MovieService {
     return await db
       .update(movie)
       .set(restMovie)
-      .where(eq(movie.showId, showId!));
+      .where(eq(movie.showId, showId!))
+      .returning({ showId: movie.showId });
   }
 
   async remove(showId: MovieShowId) {
-    return await db.delete(movie).where(eq(movie.showId, showId));
+    return await db
+      .delete(movie)
+      .where(eq(movie.showId, showId))
+      .returning({ showId: movie.showId });
   }
 }
