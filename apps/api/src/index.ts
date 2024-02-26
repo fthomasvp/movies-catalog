@@ -1,21 +1,43 @@
+import { exit } from 'node:process';
+
 import dotenv from 'dotenv';
 
 import { app } from './app';
+import { connection } from './db';
 import { logger } from './lib';
 
 dotenv.config();
 
 const port = process.env.PORT || 8080;
 
-const server = app.listen(port, () => {
-  logger.info(`Server is running on port ${port}`);
-});
+async function init() {
+  try {
+    // check if database connection is available
+    await connection`SELECT NOW();`;
 
-// [Graceful Shutdown]
-process.on('SIGTERM', () => {
-  logger.info('SIGTERM signal received: closing HTTP server');
+    const server = app.listen(port, () => {
+      logger.info(`Server is running on port ${port}`);
+    });
 
-  server.close(() => {
-    logger.info('HTTP server closed');
-  });
-});
+    // [Graceful Shutdown]
+    process.on('SIGTERM', () => {
+      logger.warn('SIGTERM signal received: closing HTTP server');
+
+      server.close(() => {
+        logger.warn('HTTP server closed');
+      });
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorCode = (error as any)?.code;
+
+      if (errorCode && errorCode === 'ECONNREFUSED') {
+        logger.error(error, 'Database is NOT available');
+
+        exit(1);
+      }
+    }
+  }
+}
+init();
