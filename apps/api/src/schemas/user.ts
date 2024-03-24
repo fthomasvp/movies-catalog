@@ -1,5 +1,11 @@
 import { createId } from '@paralleldrive/cuid2';
-import { index, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  index,
+  pgTable,
+  text,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable(
   'user',
@@ -9,6 +15,7 @@ export const user = pgTable(
     lastName: text('last_name'),
     email: text('email'),
     password: text('password'),
+    isActive: boolean('is_active').$defaultFn(() => true),
     createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
   },
   user => ({

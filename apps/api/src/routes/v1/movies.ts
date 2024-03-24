@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 
 import { logger } from '../../lib';
+import { verifyToken } from '../../middlewares';
 import { MovieService } from '../../services';
 import {
   MovieSearchValidator,
@@ -11,19 +12,24 @@ import {
 
 export const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const query = PaginationValidator.parse(req.query);
-    const data = await new MovieService().findAll(query);
+router.get(
+  '/',
+  verifyToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const query = PaginationValidator.parse(req.query);
+      const data = await new MovieService().findAll(query);
 
-    res.status(200).json(data);
-  } catch (error) {
-    next(error);
-  }
-});
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 router.get(
   '/search',
+  verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const query = MovieSearchValidator.parse(req.query);
@@ -38,6 +44,7 @@ router.get(
 
 router.get(
   '/:showId',
+  verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const showId = validateCUID2(req.params.showId);
@@ -56,26 +63,31 @@ router.get(
   },
 );
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const requestId = res.getHeader('X-Request-Id');
-    const request = {
-      id: requestId,
-    };
+router.post(
+  '/',
+  verifyToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const requestId = res.getHeader('X-Request-Id');
+      const request = {
+        id: requestId,
+      };
 
-    const movie = MovieValidator.parse(req.body);
-    const [newMovie] = await new MovieService().add(movie);
+      const movie = MovieValidator.parse(req.body);
+      const [newMovie] = await new MovieService().add(movie);
 
-    logger.info({ request, payload: { ...newMovie } }, 'Movie created');
+      logger.info({ request, payload: { ...newMovie } }, 'Movie created');
 
-    res.status(201).json(newMovie);
-  } catch (error) {
-    next(error);
-  }
-});
+      res.status(201).json(newMovie);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 router.put(
   '/:showId',
+  verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');
@@ -107,6 +119,7 @@ router.put(
 
 router.delete(
   '/:showId',
+  verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');

@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { logger } from '../../lib';
+import { encrypt, logger } from '../../lib';
+import { verifyToken } from '../../middlewares';
 import { UserService } from '../../services';
 import {
   PaginationValidator,
@@ -10,16 +11,20 @@ import {
 
 export const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const query = PaginationValidator.parse(req.query);
-    const data = await new UserService().findAll(query);
+router.get(
+  '/',
+  verifyToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const query = PaginationValidator.parse(req.query);
+      const data = await new UserService().findAll(query);
 
-    res.status(200).json(data);
-  } catch (error) {
-    next(error);
-  }
-});
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -29,6 +34,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     };
 
     const user = UserValidator.parse(req.body);
+    user.password = encrypt(user.password);
+
     const [newUser] = await new UserService().add(user);
 
     logger.info({ request, payload: { ...newUser } }, 'User created');
@@ -39,33 +46,38 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const requestId = res.getHeader('X-Request-Id');
-    const request = {
-      id: requestId,
-    };
+router.put(
+  '/:id',
+  verifyToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const requestId = res.getHeader('X-Request-Id');
+      const request = {
+        id: requestId,
+      };
 
-    const id = validateCUID2(req.params.id);
-    const user = UserValidator.omit({ email: true }).parse(req.body);
-    const [updatedUser] = await new UserService().update({ id, ...user });
+      const id = validateCUID2(req.params.id);
+      const user = UserValidator.omit({ email: true }).parse(req.body);
+      const [updatedUser] = await new UserService().update({ id, ...user });
 
-    if (!updatedUser?.id) {
-      logger.warn({ request }, 'User not found');
+      if (!updatedUser?.id) {
+        logger.warn({ request }, 'User not found');
 
-      return res.status(404).send();
+        return res.status(404).send();
+      }
+
+      logger.info({ request }, 'User updated');
+
+      res.status(204).send();
+    } catch (error) {
+      next(error);
     }
-
-    logger.info({ request }, 'User updated');
-
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
-});
+  },
+);
 
 router.delete(
   '/:id',
+  verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');

@@ -1,8 +1,6 @@
 import { ZodError } from 'zod';
 
 export const formatZodError = (error: ZodError) => {
-  console.log('> error', error);
-
   const [issue] = error.issues;
   const code = issue.code.replace(/_/g, ' ');
   const message = issue.message.toLowerCase();
