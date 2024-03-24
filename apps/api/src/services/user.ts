@@ -49,7 +49,7 @@ export class UserService {
   async findBy(params: UserFindByParams) {
     const { field, value } = params;
 
-    await db.select().from(user).where(eq(user[field], value));
+    return await db.select().from(user).where(eq(user[field], value));
   }
 
   async add(params: NewUser) {

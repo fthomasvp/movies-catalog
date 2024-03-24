@@ -17,7 +17,7 @@ export const logger = pino({
     ],
   },
   redact: {
-    paths: ['request.body.password'],
+    paths: ['request.body.password', 'payload.password'],
     remove: true,
   },
 });

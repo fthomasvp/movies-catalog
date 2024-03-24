@@ -1,15 +1,17 @@
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 
 import { errorHandler, networkTracer } from './middlewares';
-import { moviesRouterV1, usersRouterV1 } from './routes/v1';
+import { authRouterV1, moviesRouterV1, usersRouterV1 } from './routes/v1';
 
 export const app: Express = express();
 
 // [Extensions]
-app.use(compression());
 app.use(helmet());
+app.use(compression());
+app.use(cookieParser());
 app.use(express.json());
 
 // [Security]
@@ -27,6 +29,7 @@ app.use(networkTracer);
  * */
 app.use('/api/v1/movies', moviesRouterV1);
 app.use('/api/v1/users', usersRouterV1);
+app.use('/api/v1/auth', authRouterV1);
 
 // [Error Handlers]
 app.use(errorHandler);
