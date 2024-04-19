@@ -18,7 +18,7 @@ app.use(express.json());
 app.disable('x-powered-by');
 
 // [Middlewares]
-app.use(networkTracer);
+// app.use(networkTracer);
 
 /**
  * [Routes]

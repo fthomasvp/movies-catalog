@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "dev": "nodemon src/index.ts | pino-pretty",
+    "dev": "nodemon -r ./src/instrumentation.ts src/index.ts | pino-pretty",
     "test": "jest --verbose",
     "test:ci": "jest",
     "test:watch": "jest --watch",
@@ -20,12 +20,6 @@
     "node": ">=18",
     "pnpm": ">=8"
   },
-  "keywords": [
-    "typescript",
-    "api",
-    "express",
-    "drizzle"
-  ],
   "author": {
     "name": "Fellipe Pires",
     "email": "fellipecab@gmail.com",
@@ -57,7 +51,18 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@axiomhq/pino": "1.0.0-rc.1",
+    "@baselime/pino-transport": "^0.1.5",
+    "@opentelemetry/api": "^1.8.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.44.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.50.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.50.0",
+    "@opentelemetry/instrumentation": "^0.50.0",
+    "@opentelemetry/instrumentation-http": "^0.50.0",
+    "@opentelemetry/resources": "^1.23.0",
+    "@opentelemetry/sdk-metrics": "^1.23.0",
+    "@opentelemetry/sdk-node": "^0.50.0",
+    "@opentelemetry/sdk-trace-node": "^1.23.0",
+    "@opentelemetry/semantic-conventions": "^1.23.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
