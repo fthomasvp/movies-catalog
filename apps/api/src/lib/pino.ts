@@ -1,7 +1,7 @@
 import pino from 'pino';
 
 export const logger = pino({
-  name: 'movies-catalog-api',
+  name: process.env.BASELIME_DATASET,
   transport: {
     targets: [
       {
@@ -10,7 +10,7 @@ export const logger = pino({
       {
         target: '@baselime/pino-transport',
         options: {
-          // dataset: process.env.BASELIME_DATASET,
+          dataset: process.env.BASELIME_DATASET,
           baselimeApiKey: process.env.BASELIME_API_KEY,
         },
       },
