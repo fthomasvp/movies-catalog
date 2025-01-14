@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { logger } from '../../lib';
+import { logger } from '../../libs';
 import { verifyToken } from '../../middlewares';
 import { MovieService } from '../../services';
 import {

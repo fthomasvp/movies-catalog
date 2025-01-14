@@ -5,7 +5,7 @@ import { PostgresError } from 'postgres';
 import { ZodError } from 'zod';
 
 import { InactiveUserError } from '../exceptions';
-import { logger } from '../lib';
+import { logger } from '../libs';
 import { formatZodError } from '../utils';
 
 export function errorHandler(

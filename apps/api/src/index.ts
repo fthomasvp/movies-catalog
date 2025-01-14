@@ -4,7 +4,7 @@ import { exit } from 'node:process';
 
 import { app } from './app';
 import { connection } from './db';
-import { logger } from './lib';
+import { logger } from './libs';
 
 const port = process.env.PORT || 8080;
 

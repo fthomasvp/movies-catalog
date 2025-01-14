@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
 
 import { InactiveUserError } from '../exceptions';
-import { verifyRefreshToken } from '../lib';
+import { verifyRefreshToken } from '../libs';
 import { UserService } from '../services';
 
 export async function verifyToken(

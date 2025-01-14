@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { NextFunction, Request, Response } from 'express';
 
-import { logger } from '../lib';
+import { logger } from '../libs';
 
 export function networkTracer(req: Request, res: Response, next: NextFunction) {
   const { headers, method, path, params, body, ip } = req;

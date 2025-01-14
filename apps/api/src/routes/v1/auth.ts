@@ -6,7 +6,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   logger,
-} from '../../lib';
+} from '../../libs';
 import { verifyToken } from '../../middlewares';
 import { UserService } from '../../services';
 import {
