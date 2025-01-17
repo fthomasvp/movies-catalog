@@ -17,7 +17,7 @@ const button = cva(
   {
     variants: {
       intent: {
-        solid: ["bg-rewee-black", "border-white"],
+        solid: ["bg-rewee-black", "text-white", "border-white"],
         outline: ["bg-gray-200", "text-rewee-black", "border-black"],
       },
       size: {

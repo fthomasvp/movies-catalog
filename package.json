@@ -1,24 +1,17 @@
 {
-  "name": "movies-catalog",
+  "name": "rewee",
   "version": "1.0.0",
   "description": "Just an ordinary monorepo to improve my code skills.",
   "scripts": {
-    "build:all": "pnpm run -r build",
-    "start:all": "pnpm run -r start",
-    "dev:all": "pnpm run -r dev",
-    "lint:all": "pnpm run -r lint"
+    "build": "pnpm run -r build",
+    "start": "pnpm run -r start",
+    "dev": "pnpm run -r dev",
+    "lint": "pnpm run -r lint"
   },
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"
   },
-  "keywords": [
-    "monorepo",
-    "pnpm",
-    "movies",
-    "tv series",
-    "netflix"
-  ],
   "author": {
     "name": "Fellipe Pires",
     "email": "fellipecab@gmail.com",

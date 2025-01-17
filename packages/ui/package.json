@@ -12,7 +12,8 @@
     ".": {
       "import": "./dist/rewee-ui.js",
       "require": "./dist/rewee-ui.umd.cjs"
-    }
+    },
+    "./style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
