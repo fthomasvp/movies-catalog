@@ -30,21 +30,23 @@ const button = cva(
       intent: "solid",
       size: "medium",
     },
-  },
+  }
 );
-
-export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+type ButtonVariantProps = VariantProps<typeof button>;
+type RequiredProps = keyof ButtonVariantProps;
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  Omit<ButtonVariantProps, RequiredProps> &
+  Required<Pick<ButtonVariantProps, RequiredProps>> & {};
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ intent, size, className, ...props }, ref) => {
     return (
       <button
+        type="button"
         ref={ref}
         className={twMerge(button({ intent, size, className }))}
         {...props}
       />
     );
-  },
+  }
 );

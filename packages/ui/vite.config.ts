@@ -1,37 +1,51 @@
+/// <reference types="vite/client" />
 import { defineConfig } from "vite";
-import { resolve } from "path";
-// import react from "@vitejs/plugin-react";
+import { resolve, relative, extname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { globSync } from "glob";
+import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    dts({
-      rollupTypes: true,
-      exclude: ["node_modules/**", "src/components/**/*.stories.ts"],
-    }),
-  ],
   build: {
     copyPublicDir: false,
+    // See https://github.com/qmhc/vite-plugin-dts/issues/99
+    emptyOutDir: false,
     lib: {
-      // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, "src/index.ts"),
-      name: "rewee-ui",
-      // the proper extensions will be added
-      fileName: "rewee-ui",
+      entry: resolve(__dirname, "src/main.ts"),
+      formats: ["es"],
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "react/jsx-runtime"],
+      // See https://rollupjs.org/configuration-options/#input
+      input: Object.fromEntries(
+        globSync(["src/components/**/*.tsx", "src/main.ts"]).map((file) => {
+          const entryName = relative(
+            "src",
+            file.slice(0, file.length - extname(file).length)
+          );
+          const entryUrl = fileURLToPath(new URL(file, import.meta.url));
+
+          return [entryName, entryUrl];
+        })
+      ),
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
+        entryFileNames: "[name].js",
+        assetFileNames: "assets/[name][extname]",
         globals: {
           react: "React",
-          "react-dom": "ReactDOM",
+          "react-dom": "React-dom",
+          "react/jsx-runtime": "react/jsx-runtime",
         },
       },
     },
   },
+  plugins: [
+    react(),
+    dts({
+      exclude: ["src/stories/", "**/*.stories.ts"],
+      tsconfigPath: "./tsconfig.app.json",
+    }),
+  ],
 });
