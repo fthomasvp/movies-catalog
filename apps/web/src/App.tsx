@@ -1,9 +1,7 @@
 import { useState } from "react";
-// import {} from '@rewee/ui'
-// import {} from '@rewee/ui'
 import "./App.css";
+import "@rewee/ui/styles.css";
 import { Button } from "@rewee/ui";
-import "@rewee/ui/style.css";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -11,7 +9,9 @@ function App() {
   return (
     <>
       <div>Some APP</div>
-      <Button>Hey</Button>
+      <Button intent={"outline"} size={"small"}>
+        Hey
+      </Button>
     </>
   );
 }
