@@ -1,0 +1,51 @@
+{
+  "name": "@rewee/ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/main.js",
+    "./styles.css": "./dist/assets/ui.css"
+  },
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "dev": "tsc -b && vite build --watch",
+    "build": "tsc -b && vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "3.2.4",
+    "@storybook/addon-essentials": "8.6.0-alpha.0",
+    "@storybook/addon-interactions": "8.6.0-alpha.0",
+    "@storybook/addon-onboarding": "8.6.0-alpha.0",
+    "@storybook/blocks": "8.6.0-alpha.0",
+    "@storybook/react": "8.6.0-alpha.0",
+    "@storybook/react-vite": "8.6.0-alpha.0",
+    "@storybook/test": "8.6.0-alpha.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.19",
+    "glob": "^11.0.1",
+    "globals": "^15.14.0",
+    "postcss": "^8.4.38",
+    "storybook": "8.6.0-alpha.0",
+    "tailwindcss": "^3.4.3",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.5.0"
+  }
+}

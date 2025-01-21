@@ -1,12 +1,10 @@
-import { exit } from 'node:process';
+import 'dotenv/config';
 
-import dotenv from 'dotenv';
+import { exit } from 'node:process';
 
 import { app } from './app';
 import { connection } from './db';
-import { logger } from './lib';
-
-dotenv.config();
+import { logger } from './libs';
 
 const port = process.env.PORT || 8080;
 

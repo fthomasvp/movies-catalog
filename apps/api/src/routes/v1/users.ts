@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { encrypt, logger } from '../../lib';
+import { encrypt, logger } from '../../libs';
 import { verifyToken } from '../../middlewares';
 import { UserService } from '../../services';
 import {
@@ -29,16 +29,13 @@ router.get(
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const requestId = res.getHeader('X-Request-Id');
-    const request = {
-      id: requestId,
-    };
 
     const user = UserValidator.parse(req.body);
     user.password = encrypt(user.password);
 
     const [newUser] = await new UserService().add(user);
 
-    logger.info({ request, payload: { ...newUser } }, 'User created');
+    logger.info({ requestId, payload: { ...newUser } }, 'User created');
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -52,21 +49,18 @@ router.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');
-      const request = {
-        id: requestId,
-      };
 
       const id = validateCUID2(req.params.id);
       const user = UserValidator.omit({ email: true }).parse(req.body);
       const [updatedUser] = await new UserService().update({ id, ...user });
 
       if (!updatedUser?.id) {
-        logger.warn({ request }, 'User not found');
+        logger.warn({ requestId }, 'User not found');
 
         return res.status(404).send();
       }
 
-      logger.info({ request }, 'User updated');
+      logger.info({ requestId }, 'User updated');
 
       res.status(204).send();
     } catch (error) {
@@ -81,20 +75,17 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader('X-Request-Id');
-      const request = {
-        id: requestId,
-      };
 
       const id = validateCUID2(req.params.id);
       const [deletedUser] = await new UserService().remove(id);
 
       if (!deletedUser?.id) {
-        logger.warn({ request }, 'User not found');
+        logger.warn({ requestId }, 'User not found');
 
         return res.status(404).send();
       }
 
-      logger.info({ request }, 'User deleted');
+      logger.info({ requestId }, 'User deleted');
 
       res.status(204).send();
     } catch (error) {

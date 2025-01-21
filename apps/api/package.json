@@ -20,12 +20,6 @@
     "node": ">=18",
     "pnpm": ">=8"
   },
-  "keywords": [
-    "typescript",
-    "api",
-    "express",
-    "drizzle"
-  ],
   "author": {
     "name": "Fellipe Pires",
     "email": "fellipecab@gmail.com",
@@ -53,11 +47,10 @@
     "prettier": "^3.2.1",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "@axiomhq/pino": "1.0.0-rc.1",
+    "@baselime/pino-transport": "^0.1.5",
     "@paralleldrive/cuid2": "^2.2.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",

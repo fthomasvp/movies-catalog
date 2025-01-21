@@ -4,7 +4,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 import { migrationConnection } from './db';
-import { logger } from './lib';
+import { logger } from './libs';
 
 const db = drizzle(migrationConnection);
 

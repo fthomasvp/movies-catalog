@@ -6,7 +6,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   logger,
-} from '../../lib';
+} from '../../libs';
 import { verifyToken } from '../../middlewares';
 import { UserService } from '../../services';
 import {
@@ -22,9 +22,6 @@ export const router = express.Router();
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const requestId = res.getHeader('X-Request-Id');
-    const request = {
-      id: requestId,
-    };
 
     const reqBody = UserValidator.pick({ email: true, password: true }).parse(
       req.body,
@@ -36,7 +33,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (!user || user.password !== encrypt(reqBody.password)) {
-      logger.warn({ request }, 'Attempt to sign in with wrong credentials');
+      logger.warn({ requestId }, 'Attempt to sign in with wrong credentials');
 
       throw new ReferenceError();
     }
@@ -48,7 +45,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    logger.info({ request, payload: { ...user } }, 'User authenticated');
+    logger.info({ requestId, payload: { ...user } }, 'User authenticated');
 
     res.cookie(COOKIE_ACCESS_TOKEN, accessToken, {
       httpOnly: true,
