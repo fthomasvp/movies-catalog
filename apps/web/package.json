@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "format": "pnpm biome format --write ./src",
     "lint": "echo \"TODO: implement using Biome.js\" && exit 1",
     "preview": "vite preview"
   },
@@ -15,6 +16,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@rewee/shared-configs": "workspace:^",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
