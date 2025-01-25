@@ -1,12 +1,12 @@
-import { createId } from '@paralleldrive/cuid2';
-import { NextFunction, Request, Response } from 'express';
-import { JsonWebTokenError } from 'jsonwebtoken';
-import { PostgresError } from 'postgres';
-import { ZodError } from 'zod';
+import { createId } from "@paralleldrive/cuid2";
+import { NextFunction, Request, Response } from "express";
+import { JsonWebTokenError } from "jsonwebtoken";
+import { PostgresError } from "postgres";
+import { ZodError } from "zod";
 
-import { InactiveUserError } from '../exceptions';
-import { logger } from '../libs';
-import { formatZodError } from '../utils';
+import { InactiveUserError } from "../exceptions";
+import { logger } from "../libs";
+import { formatZodError } from "../utils";
 
 export function errorHandler(
   err: Error,
@@ -16,10 +16,10 @@ export function errorHandler(
 ) {
   const { headers, method, path, params, body, ip } = req;
 
-  const requestId = (res.getHeader('X-Request-Id') as string) ?? createId();
+  const requestId = (res.getHeader("X-Request-Id") as string) ?? createId();
   let request = {};
 
-  if (method === 'GET') {
+  if (method === "GET") {
     request = {
       headers,
       method,
@@ -33,7 +33,7 @@ export function errorHandler(
   if (err instanceof ZodError) {
     logger.error(
       { requestId, request, error: err.stack },
-      'Invalid or missing required properties sent by client',
+      "Invalid or missing required properties sent by client",
     );
     res.status(400).json({
       error: {
@@ -48,7 +48,7 @@ export function errorHandler(
   if (err instanceof PostgresError) {
     logger.error(
       { requestId, request, error: err.stack },
-      'Invalid database operation',
+      "Invalid database operation",
     );
     res.status(422).json({ error: { type: err.name, message: err.message } });
 
@@ -58,11 +58,11 @@ export function errorHandler(
   if (err instanceof JsonWebTokenError) {
     logger.error(
       { requestId, request, error: err.stack },
-      'Invalid or missing JWT token',
+      "Invalid or missing JWT token",
     );
     res
       .status(422)
-      .json({ error: { type: 'AuthError', message: err.message } });
+      .json({ error: { type: "AuthError", message: err.message } });
 
     return;
   }
@@ -70,12 +70,12 @@ export function errorHandler(
   if (err instanceof ReferenceError) {
     logger.error(
       { requestId, request, error: err.stack },
-      'Invalid or missing data',
+      "Invalid or missing data",
     );
     res.status(422).json({
       error: {
         type: err.name,
-        message: err.message || 'Invalid or missing data',
+        message: err.message || "Invalid or missing data",
       },
     });
 
@@ -85,7 +85,7 @@ export function errorHandler(
   if (err instanceof InactiveUserError) {
     logger.error(
       { requestId, request, error: err.stack },
-      'User is not active',
+      "User is not active",
     );
     res.status(422).json({ error: { type: err.name, message: err.message } });
 
@@ -94,7 +94,7 @@ export function errorHandler(
 
   logger.error(
     { requestId, request, error: err.stack },
-    'Internal Server Error',
+    "Internal Server Error",
   );
   res.status(500).json({ error: { type: err.name, message: err.message } });
 }

@@ -1,7 +1,7 @@
-import { count,SQL } from 'drizzle-orm';
-import { PgTableWithColumns } from 'drizzle-orm/pg-core';
+import { count, SQL } from "drizzle-orm";
+import { PgTableWithColumns } from "drizzle-orm/pg-core";
 
-import { db } from '../db';
+import { db } from "../db";
 
 type GetCount = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

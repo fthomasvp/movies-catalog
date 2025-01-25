@@ -1,1 +1,1 @@
-export * from './inactive-user-error';
+export * from "./inactive-user-error";

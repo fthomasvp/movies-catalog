@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from "express";
 
 import {
   decodeToken,
@@ -6,34 +6,34 @@ import {
   generateAccessToken,
   generateRefreshToken,
   logger,
-} from '../../libs';
-import { verifyToken } from '../../middlewares';
-import { UserService } from '../../services';
+} from "../../libs";
+import { verifyToken } from "../../middlewares";
+import { UserService } from "../../services";
 import {
   COOKIE_ACCESS_TOKEN,
   COOKIE_REFRESH_TOKEN,
   EXPIRATION_TIME_MS_ACCESS_TOKEN,
   EXPIRATION_TIME_MS_REFRESH_TOKEN,
-} from '../../utils';
-import { UserValidator } from '../../validators';
+} from "../../utils";
+import { UserValidator } from "../../validators";
 
 export const router = express.Router();
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const requestId = res.getHeader('X-Request-Id');
+    const requestId = res.getHeader("X-Request-Id");
 
     const reqBody = UserValidator.pick({ email: true, password: true }).parse(
       req.body,
     );
 
     const [user] = await new UserService().findBy({
-      field: 'email',
+      field: "email",
       value: reqBody.email,
     });
 
     if (!user || user.password !== encrypt(reqBody.password)) {
-      logger.warn({ requestId }, 'Attempt to sign in with wrong credentials');
+      logger.warn({ requestId }, "Attempt to sign in with wrong credentials");
 
       throw new ReferenceError();
     }
@@ -45,7 +45,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    logger.info({ requestId, payload: { ...user } }, 'User authenticated');
+    logger.info({ requestId, payload: { ...user } }, "User authenticated");
 
     res.cookie(COOKIE_ACCESS_TOKEN, accessToken, {
       httpOnly: true,
@@ -62,7 +62,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post(
-  '/refresh',
+  "/refresh",
   verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

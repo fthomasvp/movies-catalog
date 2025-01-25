@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 type JwtPayloadInfo = JwtPayload & {
   isActive: boolean;
@@ -11,9 +11,9 @@ type Payload = {
 
 export const generateAccessToken = (payload: Payload) =>
   jwt.sign({ isActive: payload.isActive }, process.env.SECRET_JWT as string, {
-    expiresIn: '1m', // TODO: Update to 15m
+    expiresIn: "1m", // TODO: Update to 15m
     subject: payload.userId,
-    issuer: 'https://movies.catalog',
+    issuer: "https://movies.catalog",
   });
 
 export const generateRefreshToken = (payload: Payload) =>
@@ -21,9 +21,9 @@ export const generateRefreshToken = (payload: Payload) =>
     { isActive: payload.isActive },
     process.env.SECRET_JWT_REFRESH as string,
     {
-      expiresIn: '2m', // TODO: Update to 30m
+      expiresIn: "2m", // TODO: Update to 30m
       subject: payload.userId,
-      issuer: 'https://movies.catalog',
+      issuer: "https://movies.catalog",
     },
   );
 
@@ -32,10 +32,10 @@ export const decodeToken = (token: string) =>
 
 export const verifyToken = (token: string) =>
   jwt.verify(token, process.env.SECRET_JWT as string, {
-    issuer: 'https://movies.catalog',
+    issuer: "https://movies.catalog",
   }) as JwtPayloadInfo;
 
 export const verifyRefreshToken = (token: string) =>
   jwt.verify(token, process.env.SECRET_JWT_REFRESH as string, {
-    issuer: 'https://movies.catalog',
+    issuer: "https://movies.catalog",
   }) as JwtPayloadInfo;

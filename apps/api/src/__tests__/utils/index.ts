@@ -1,1 +1,1 @@
-export * from './invalid-scenarios';
+export * from "./invalid-scenarios";

@@ -2,22 +2,23 @@
   "name": "rewee",
   "version": "1.0.0",
   "description": "Just an ordinary monorepo to improve my code skills.",
-  "scripts": {
-    "build": "pnpm run -r build",
-    "start": "pnpm run -r start",
-    "dev": "pnpm run -r --parallel --aggregate-output dev",
-    "lint": "pnpm run -r lint"
-  },
-  "engines": {
-    "node": ">=18",
-    "pnpm": ">=8"
-  },
   "author": {
     "name": "Fellipe Pires",
     "email": "fellipecab@gmail.com",
     "url": "https://fthomasvp.github.io"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "pnpm run -r build",
+    "dev": "pnpm run -r --parallel --aggregate-output dev",
+    "lint": "pnpm run -r --parallel --aggregate-output lint",
+    "format": "pnpm run -r --parallel --aggregate-output format",
+    "preview": "pnpm run -r preview"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "typescript": "5.6.2"
