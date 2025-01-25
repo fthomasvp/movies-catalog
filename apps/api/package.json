@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon src/index.ts | pino-pretty",
-    "format": "pnpm biome format --write ./src",
+    "format": "biome format --write ./src",
     "generate": "drizzle-kit generate:pg",
+    "lint": "biome lint --write ./src",
     "migrate": "ts-node src/migrate.ts",
     "preview": "node dist/src/index.js",
     "test": "jest --verbose",

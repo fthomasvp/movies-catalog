@@ -1,4 +1,8 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
 
 import {
   decodeToken,
@@ -32,15 +36,19 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
       value: reqBody.email,
     });
 
-    if (!user || user.password !== encrypt(reqBody.password)) {
+    if (
+      !user.id ||
+      !user.isActive ||
+      user.password !== encrypt(reqBody.password)
+    ) {
       logger.warn({ requestId }, "Attempt to sign in with wrong credentials");
 
       throw new ReferenceError();
     }
 
     const payload = {
-      userId: user.id!,
-      isActive: user.isActive!,
+      userId: user.id,
+      isActive: user.isActive,
     };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
@@ -66,11 +74,22 @@ router.post(
   verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const requestId = res.getHeader("X-Request-Id");
+
       const { refreshToken } = req.cookies;
       const { sub, isActive } = decodeToken(refreshToken);
 
+      if (!sub) {
+        logger.warn(
+          { requestId },
+          "Attempt to refresh token with invalid credentials",
+        );
+
+        throw new ReferenceError();
+      }
+
       const payload = {
-        userId: sub!,
+        userId: sub,
         isActive,
       };
       const newAccessToken = generateAccessToken(payload);

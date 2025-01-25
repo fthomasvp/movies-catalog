@@ -101,7 +101,7 @@ export class MovieService {
     return await db
       .update(movie)
       .set(restMovie)
-      .where(eq(movie.showId, showId!))
+      .where(eq(movie.showId, showId as MovieShowId))
       .returning({ showId: movie.showId });
   }
 

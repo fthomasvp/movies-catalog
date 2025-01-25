@@ -1,7 +1,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 
 import { db } from "../db";
-import { type NewUser, User, user, type UserId } from "../schemas";
+import { type NewUser, type User, user, type UserId } from "../schemas";
 import {
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
@@ -62,7 +62,7 @@ export class UserService {
     return await db
       .update(user)
       .set(restUser)
-      .where(eq(user.id, id!))
+      .where(eq(user.id, id as UserId))
       .returning({ id: user.id });
   }
 

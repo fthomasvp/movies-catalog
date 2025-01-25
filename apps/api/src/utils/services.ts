@@ -1,21 +1,24 @@
-import { count, SQL } from "drizzle-orm";
-import { PgTableWithColumns } from "drizzle-orm/pg-core";
+import { count, type SQL } from "drizzle-orm";
+import type { PgTableWithColumns, TableConfig } from "drizzle-orm/pg-core";
 
 import { db } from "../db";
 
 type GetCount = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: Too much effort for typing
   table: PgTableWithColumns<any>;
   condition?: SQL<unknown>;
 };
 
 /**
- * Use this to get the amount of items from a table.
+ * Get the amount of items from a table.
  *
- * @param condition - an SQL statement that will be used inside the `where` function.
+ * @param table - a table schema.
+ * @param condition - a SQL statement that will be used inside the `where` function.
  * @returns an object with the `value` property representing the amount as a number.
  */
-export const getCount = async ({ table, condition = undefined }: GetCount) => {
+export const getCount = async (params: GetCount) => {
+  const { table, condition = undefined } = params;
+
   const [totalItems] = await db
     .select({ value: count() })
     .from(table)

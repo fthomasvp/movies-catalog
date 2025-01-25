@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { JsonWebTokenError } from "jsonwebtoken";
 
 import { InactiveUserError } from "../exceptions";
@@ -21,7 +21,7 @@ export async function verifyToken(
 
     const [user] = await new UserService().findBy({
       field: "id",
-      value: sub!,
+      value: sub || "",
     });
 
     if (!user) {

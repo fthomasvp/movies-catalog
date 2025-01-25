@@ -1,5 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 import { logger } from "../libs";
 
@@ -11,12 +11,12 @@ export function networkTracer(req: Request, res: Response, next: NextFunction) {
   res.setHeader("X-Request-Id", requestId);
 
   const attributes = {
-    ["http.headers"]: headers,
-    ["http.method"]: method,
-    ["http.path"]: path,
-    ["http.params"]: params,
-    ["http.body"]: body,
-    ["http.ip"]: ip,
+    "http.headers": headers,
+    "http.method": method,
+    "http.path": path,
+    "http.params": params,
+    "http.body": body,
+    "http.ip": ip,
   };
 
   const duration = Date.now() - startTime;

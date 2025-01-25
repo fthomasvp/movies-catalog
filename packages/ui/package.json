@@ -15,7 +15,8 @@
     "build": "tsc -b && vite build",
     "build-storybook": "storybook build",
     "dev": "tsc -b && vite build --watch",
-    "format": "pnpm biome format --write ./src",
+    "format": "biome format --write ./src",
+    "lint": "biome lint --write ./src",
     "preview": "pnpm run build",
     "storybook": "storybook dev -p 6006"
   },

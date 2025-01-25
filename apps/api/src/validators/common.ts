@@ -5,11 +5,11 @@ import { DEFAULT_PAGINATION_LIMIT } from "../utils";
 export const PaginationValidator = z.object({
   offset: z
     .string()
-    .transform((val) => parseInt(val))
+    .transform((val) => Number.parseInt(val))
     .pipe(z.number().min(0).default(0)),
   limit: z
     .string()
-    .transform((val) => parseInt(val))
+    .transform((val) => Number.parseInt(val))
     .pipe(
       z
         .number()

@@ -1,6 +1,6 @@
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import express, { Express } from "express";
+import express, { type Express } from "express";
 import helmet from "helmet";
 
 import { errorHandler, networkTracer } from "./middlewares";
