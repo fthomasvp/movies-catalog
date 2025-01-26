@@ -11,8 +11,8 @@
   "scripts": {
     "build": "pnpm run -r build",
     "dev": "pnpm run -r --parallel --aggregate-output dev",
-    "lint": "pnpm run -r --parallel --aggregate-output lint",
     "format": "pnpm run -r --parallel --aggregate-output format",
+    "lint": "pnpm run -r --parallel --aggregate-output lint",
     "preview": "pnpm run -r preview"
   },
   "engines": {

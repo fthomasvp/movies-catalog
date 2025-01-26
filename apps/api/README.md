@@ -21,7 +21,7 @@ pnpm install
 
 | Command      | Action                                       |
 | :----------- | :------------------------------------------- |
-| `dev`        | Starts local dev server at `localhost:5173`  |
+| `dev`        | Starts local dev server at `localhost:8080`  |
 | `build`      | Build your production site to `./dist/`      |
 | `format`     | Format code in **write** mode                |
 | `generate`   | Generate a migration to `./drizzle`          |
