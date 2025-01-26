@@ -1,7 +1,7 @@
-import 'dotenv/config';
+import "dotenv/config";
 
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 const DB_URL = String(process.env.DB_URL);
 

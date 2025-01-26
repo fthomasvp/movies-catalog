@@ -23,10 +23,13 @@ pnpm install
 
 | Command           | Action                                                                                                                       |
 | :---------------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| `dev`             | Watch for changes to the `vite.config.js`, as well as any files, and triggers a rebuild                                      |
 | `build`           | Build your production library to `./dist/`                                                                                   |
-| `storybook`       | Compiles and serves a development build of your Storybook that reflects your source code changes in the browser in real-time |
 | `build-storybook` | Compiles your Storybook instance so it can be deployed                                                                       |
+| `dev`             | Watch for changes to the `vite.config.js`, as well as any files, and triggers a rebuild                                      |
+| `format`          | Format code in **write** mode                                                                                                |
+| `lint`            | Lint code in **write** mode                                                                                                  |
+| `preview`         | Preview your build locally, before deploying                                                                                 |
+| `storybook`       | Compiles and serves a development build of your Storybook that reflects your source code changes in the browser in real-time |
 
 ## License
 

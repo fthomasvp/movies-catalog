@@ -1,14 +1,14 @@
-import pino from 'pino';
+import pino from "pino";
 
 export const logger = pino({
   name: process.env.BASELIME_DATASET,
   transport: {
     targets: [
       {
-        target: 'pino-pretty',
+        target: "pino-pretty",
       },
       {
-        target: '@baselime/pino-transport',
+        target: "@baselime/pino-transport",
         options: {
           dataset: process.env.BASELIME_DATASET,
           baselimeApiKey: process.env.BASELIME_API_KEY,
@@ -18,10 +18,10 @@ export const logger = pino({
   },
   redact: {
     paths: [
-      'attributes.http.body.email',
-      'attributes.http.body.password',
-      'payload.email',
-      'payload.password',
+      "attributes.http.body.email",
+      "attributes.http.body.password",
+      "payload.email",
+      "payload.password",
     ],
   },
 });

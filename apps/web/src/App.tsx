@@ -6,6 +6,8 @@ import { Button } from "@rewee/ui";
 function App() {
   const [count, setCount] = useState(0);
 
+  console.log("NOT ERROR HERE 'asddas'");
+
   return (
     <>
       <div>Some APP</div>

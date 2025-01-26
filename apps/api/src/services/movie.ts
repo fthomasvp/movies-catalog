@@ -1,13 +1,13 @@
-import { asc, desc, eq, like } from 'drizzle-orm';
+import { asc, desc, eq, like } from "drizzle-orm";
 
-import { db } from '../db';
-import { type Movie, movie, type MovieShowId, type NewMovie } from '../schemas';
+import { db } from "../db";
+import { type Movie, movie, type MovieShowId, type NewMovie } from "../schemas";
 import {
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
   getCount,
   type PaginationParams,
-} from '../utils';
+} from "../utils";
 
 type MovieSearchParams = PaginationParams & {
   field: keyof Movie;
@@ -19,7 +19,7 @@ export class MovieService {
     const {
       offset = DEFAULT_PAGINATION_OFFSET,
       limit = DEFAULT_PAGINATION_LIMIT,
-      sort = 'asc',
+      sort = "asc",
     } = params;
 
     const totalItems = await getCount({ table: movie });
@@ -36,7 +36,7 @@ export class MovieService {
       .offset(offset)
       .limit(limit)
       .orderBy(
-        sort && sort === 'desc'
+        sort && sort === "desc"
           ? desc(movie.releaseYear)
           : asc(movie.releaseYear),
       );
@@ -101,7 +101,7 @@ export class MovieService {
     return await db
       .update(movie)
       .set(restMovie)
-      .where(eq(movie.showId, showId!))
+      .where(eq(movie.showId, showId as MovieShowId))
       .returning({ showId: movie.showId });
   }
 

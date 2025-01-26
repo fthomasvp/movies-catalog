@@ -3,23 +3,22 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": {
     ".": "./dist/main.js",
     "./styles.css": "./dist/assets/ui.css"
   },
   "module": "./dist/main.js",
   "types": "./dist/main.d.ts",
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": ["**/*.css"],
   "scripts": {
-    "dev": "tsc -b && vite build --watch",
     "build": "tsc -b && vite build",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "dev": "tsc -b && vite build --watch",
+    "format": "biome format --write ./src",
+    "lint": "biome lint --write ./src",
+    "preview": "pnpm run build",
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

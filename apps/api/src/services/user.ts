@@ -1,16 +1,16 @@
-import { asc, desc, eq } from 'drizzle-orm';
+import { asc, desc, eq } from "drizzle-orm";
 
-import { db } from '../db';
-import { type NewUser, User, user, type UserId } from '../schemas';
+import { db } from "../db";
+import { type NewUser, type User, user, type UserId } from "../schemas";
 import {
   DEFAULT_PAGINATION_LIMIT,
   DEFAULT_PAGINATION_OFFSET,
   getCount,
   type PaginationParams,
-} from '../utils';
+} from "../utils";
 
 type UserFindByParams = {
-  field: keyof Pick<User, 'email' | 'id'>;
+  field: keyof Pick<User, "email" | "id">;
   value: string;
 };
 
@@ -19,7 +19,7 @@ export class UserService {
     const {
       offset = DEFAULT_PAGINATION_OFFSET,
       limit = DEFAULT_PAGINATION_LIMIT,
-      sort = 'asc',
+      sort = "asc",
     } = params;
 
     const totalItems = await getCount({ table: user });
@@ -35,7 +35,7 @@ export class UserService {
       .offset(offset)
       .limit(limit)
       .orderBy(
-        sort && sort === 'desc' ? desc(user.createdAt) : asc(user.createdAt),
+        sort && sort === "desc" ? desc(user.createdAt) : asc(user.createdAt),
       );
 
     return {
@@ -62,7 +62,7 @@ export class UserService {
     return await db
       .update(user)
       .set(restUser)
-      .where(eq(user.id, id!))
+      .where(eq(user.id, id as UserId))
       .returning({ id: user.id });
   }
 

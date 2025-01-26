@@ -1,5 +1,9 @@
 {
+  // Terminal
   "terminal.integrated.scrollback": 100000,
+
+  // Editor
+  "editor.defaultFormatter": "biomejs.biome",
 
   // CSS
   "tailwindCSS.experimental.classRegex": [

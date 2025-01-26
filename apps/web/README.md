@@ -25,8 +25,9 @@ pnpm install
 | :-------- | :------------------------------------------- |
 | `dev`     | Starts local dev server at `localhost:5173`  |
 | `build`   | Build your production site to `./dist/`      |
+| `format`  | Format code in **write** mode                |
+| `lint`    | Lint code in **write** mode                  |
 | `preview` | Preview your build locally, before deploying |
-| `lint`    | Look for lint issues in the code             |
 
 ## License
 

@@ -1,18 +1,18 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { type NextFunction, type Request, type Response } from "express";
 
-import { encrypt, logger } from '../../libs';
-import { verifyToken } from '../../middlewares';
-import { UserService } from '../../services';
+import { encrypt, logger } from "../../libs";
+import { verifyToken } from "../../middlewares";
+import { UserService } from "../../services";
 import {
   PaginationValidator,
   UserValidator,
   validateCUID2,
-} from '../../validators';
+} from "../../validators";
 
 export const router = express.Router();
 
 router.get(
-  '/',
+  "/",
   verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -26,16 +26,16 @@ router.get(
   },
 );
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const requestId = res.getHeader('X-Request-Id');
+    const requestId = res.getHeader("X-Request-Id");
 
     const user = UserValidator.parse(req.body);
     user.password = encrypt(user.password);
 
     const [newUser] = await new UserService().add(user);
 
-    logger.info({ requestId, payload: { ...newUser } }, 'User created');
+    logger.info({ requestId, payload: { ...newUser } }, "User created");
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -44,23 +44,23 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.put(
-  '/:id',
+  "/:id",
   verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const requestId = res.getHeader('X-Request-Id');
+      const requestId = res.getHeader("X-Request-Id");
 
       const id = validateCUID2(req.params.id);
       const user = UserValidator.omit({ email: true }).parse(req.body);
       const [updatedUser] = await new UserService().update({ id, ...user });
 
       if (!updatedUser?.id) {
-        logger.warn({ requestId }, 'User not found');
+        logger.warn({ requestId }, "User not found");
 
         return res.status(404).send();
       }
 
-      logger.info({ requestId }, 'User updated');
+      logger.info({ requestId }, "User updated");
 
       res.status(204).send();
     } catch (error) {
@@ -70,22 +70,22 @@ router.put(
 );
 
 router.delete(
-  '/:id',
+  "/:id",
   verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const requestId = res.getHeader('X-Request-Id');
+      const requestId = res.getHeader("X-Request-Id");
 
       const id = validateCUID2(req.params.id);
       const [deletedUser] = await new UserService().remove(id);
 
       if (!deletedUser?.id) {
-        logger.warn({ requestId }, 'User not found');
+        logger.warn({ requestId }, "User not found");
 
         return res.status(404).send();
       }
 
-      logger.info({ requestId }, 'User deleted');
+      logger.info({ requestId }, "User deleted");
 
       res.status(204).send();
     } catch (error) {
