@@ -1,3 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+  scroll-behavior: smooth;
+
+  margin: 0;
+  padding: 0;
+
+  word-wrap: break-word;
+}
+
+/* *:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px $colors-yellow-mikado;
+} */
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -9,10 +31,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }

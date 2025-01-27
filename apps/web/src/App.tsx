@@ -1,19 +1,12 @@
-import { useState } from "react";
-import "./App.css";
 import "@rewee/ui/styles.css";
-import { Button } from "@rewee/ui";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   console.log("NOT ERROR HERE 'asddas'");
 
   return (
     <>
-      <div>Some APP</div>
-      <Button intent={"outline"} size={"small"}>
-        Hey
-      </Button>
+      <div className="text-lg">Some APP</div>
     </>
   );
 }

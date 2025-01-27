@@ -4,6 +4,9 @@
 
   // Editor
   "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit"
+  },
 
   // CSS
   "tailwindCSS.experimental.classRegex": [

@@ -1,7 +1,11 @@
-import express, { type NextFunction, type Request, type Response } from "express";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
 
 import { encrypt, logger } from "../../libs";
-import { verifyToken } from "../../middlewares";
+// import { verifyToken } from "../../middlewares";
 import { UserService } from "../../services";
 import {
   PaginationValidator,
@@ -13,7 +17,7 @@ export const router = express.Router();
 
 router.get(
   "/",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const query = PaginationValidator.parse(req.query);
@@ -45,7 +49,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.put(
   "/:id",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader("X-Request-Id");
@@ -71,7 +75,7 @@ router.put(
 
 router.delete(
   "/:id",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader("X-Request-Id");

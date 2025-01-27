@@ -1,7 +1,11 @@
-import express, { type NextFunction, type Request, type Response } from "express";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
 
 import { logger } from "../../libs";
-import { verifyToken } from "../../middlewares";
+// import { verifyToken } from "../../middlewares";
 import { MovieService } from "../../services";
 import {
   MovieSearchValidator,
@@ -14,7 +18,7 @@ export const router = express.Router();
 
 router.get(
   "/",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const query = PaginationValidator.parse(req.query);
@@ -29,7 +33,7 @@ router.get(
 
 router.get(
   "/search",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const query = MovieSearchValidator.parse(req.query);
@@ -44,7 +48,7 @@ router.get(
 
 router.get(
   "/:showId",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const showId = validateCUID2(req.params.showId);
@@ -65,7 +69,7 @@ router.get(
 
 router.post(
   "/",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const startTime = Date.now();
@@ -90,7 +94,7 @@ router.post(
 
 router.put(
   "/:showId",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader("X-Request-Id");
@@ -119,7 +123,7 @@ router.put(
 
 router.delete(
   "/:showId",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader("X-Request-Id");

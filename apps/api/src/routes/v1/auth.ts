@@ -11,7 +11,7 @@ import {
   generateRefreshToken,
   logger,
 } from "../../libs";
-import { verifyToken } from "../../middlewares";
+// import { verifyToken } from "../../middlewares";
 import { UserService } from "../../services";
 import {
   COOKIE_ACCESS_TOKEN,
@@ -71,7 +71,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post(
   "/refresh",
-  verifyToken,
+  // verifyToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const requestId = res.getHeader("X-Request-Id");
