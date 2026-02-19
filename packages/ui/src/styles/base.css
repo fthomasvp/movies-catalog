@@ -1,4 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownMediaFeatureName: Tailwind rule */
+/* Biome will ignore this cause CSS.parser option is set */
 @import "tailwindcss" prefix(ui);
 
 @theme {
