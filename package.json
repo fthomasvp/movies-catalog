@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Just an ordinary monorepo to improve my code skills.",
   "author": {
-    "name": "Fellipe Pires",
-    "email": "fellipecab@gmail.com",
-    "url": "https://fthomasvp.github.io"
+    "name": "@fthomasvp"
+  },
+  "engines": {
+    "node": ">=22 <24"
   },
   "license": "MIT",
   "scripts": {
@@ -14,10 +15,6 @@
     "format": "pnpm run -r --parallel --aggregate-output format",
     "lint": "pnpm run -r --parallel --aggregate-output lint",
     "preview": "pnpm run -r preview"
-  },
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

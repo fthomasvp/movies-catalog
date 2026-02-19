@@ -1,29 +1,29 @@
+import { type VariantProps, cva } from "class-variance-authority";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 const button = cva(
   [
-    "cursor-pointer",
-    "font-semibold",
-    "border",
-    "rounded-lg",
-    "transition-colors",
-    "focus:outline",
-    "focus:outline-4",
-    "focus:outline-rewee-yellow",
-    "hover:border-rewee-yellow",
+    "ui:cursor-pointer",
+    "ui:font-semibold",
+    "ui:border",
+    "ui:rounded-lg",
+    "ui:transition-colors",
+    "ui:focus:outline",
+    "ui:focus:outline-4",
+    "ui:focus:outline-system-yellow",
+    "ui:hover:border-system-yellow",
   ],
   {
     variants: {
       intent: {
-        solid: ["bg-rewee-black", "text-white", "border-white"],
-        outline: ["bg-gray-200", "text-rewee-black", "border-black"],
+        solid: ["ui:bg-black", "ui:text-white", "ui:border-white"],
+        outline: ["ui:bg-gray-200", "ui:text-black", "ui:border-black"],
       },
       size: {
-        small: ["text-sm", "py-1", "px-2"],
-        medium: ["text-base", "py-2", "px-4"],
-        large: ["text-lg", "py-3", "px-6"],
+        small: ["ui:text-sm", "ui:py-1", "ui:px-2"],
+        medium: ["ui:text-base", "ui:py-2", "ui:px-4"],
+        large: ["ui:text-lg", "ui:py-3", "ui:px-6"],
       },
     },
     defaultVariants: {
@@ -44,7 +44,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         type="button"
         ref={ref}
-        className={twMerge(button({ intent, size, className }))}
+        className={twMerge(button({ intent, size }), className)}
         {...props}
       />
     );

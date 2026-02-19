@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* biome-ignore lint/correctness/noUnknownMediaFeatureName: Tailwind rule */
+@import "tailwindcss" prefix(ui);
+
+@theme {
+  /* Grayscale */
+  --color-black: hsla(154, 89%, 4%, 1);
+
+  /* Brand */
+  --color-brand-orange: hsla(12, 89%, 39%, 1);
+  --color-brand-purple: hsla(269, 64%, 38%, 1);
+
+  /* System */
+  --color-system-yellow: hsla(49, 93%, 67%, 1);
+  --color-system-green: hsla(150, 100%, 12%, 1);
+}

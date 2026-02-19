@@ -1,0 +1,9 @@
+{
+  "files": [],
+  // See https://nx.dev/blog/typescript-project-references
+  "references": [
+    { "path": "./apps/api" },
+    { "path": "./apps/web" },
+    { "path": "./packages/ui" }
+  ]
+}
