@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "format": "biome format --write ./src",
     "lint": "biome lint --write ./src",
+    "lint:ci": "biome lint ./src --diagnostic-level=error",
     "preview": "vite preview"
   },
   "dependencies": {
