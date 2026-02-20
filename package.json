@@ -1,14 +1,11 @@
 {
   "name": "rewee",
   "version": "1.0.0",
-  "description": "Just an ordinary monorepo to improve my code skills.",
-  "author": {
-    "name": "@fthomasvp"
-  },
+  "license": "MIT",
   "engines": {
     "node": ">=22 <24"
   },
-  "license": "MIT",
+  "packageManager": "pnpm@10.22.0",
   "scripts": {
     "build": "pnpm run -r build",
     "dev": "pnpm run -r --parallel --aggregate-output dev",
