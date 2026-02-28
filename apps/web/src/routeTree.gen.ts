@@ -19,7 +19,6 @@ import { Route as LayoutImport } from './routes/_layout'
 
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
-const UsersIndexLazyImport = createFileRoute('/users/')()
 const LayoutMoviesIndexLazyImport = createFileRoute('/_layout/movies/')()
 
 // Create/Update Routes
@@ -40,12 +39,6 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-
-const UsersIndexLazyRoute = UsersIndexLazyImport.update({
-  id: '/users/',
-  path: '/users/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/users/index.lazy').then((d) => d.Route))
 
 const LayoutMoviesIndexLazyRoute = LayoutMoviesIndexLazyImport.update({
   id: '/movies/',
@@ -80,13 +73,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/users/': {
-      id: '/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersIndexLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout/movies/': {
       id: '/_layout/movies/'
       path: '/movies'
@@ -114,7 +100,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutLazyRoute
-  '/users': typeof UsersIndexLazyRoute
   '/movies': typeof LayoutMoviesIndexLazyRoute
 }
 
@@ -122,7 +107,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutLazyRoute
-  '/users': typeof UsersIndexLazyRoute
   '/movies': typeof LayoutMoviesIndexLazyRoute
 }
 
@@ -131,16 +115,15 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/about': typeof AboutLazyRoute
-  '/users/': typeof UsersIndexLazyRoute
   '/_layout/movies/': typeof LayoutMoviesIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/about' | '/users' | '/movies'
+  fullPaths: '/' | '' | '/about' | '/movies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/about' | '/users' | '/movies'
-  id: '__root__' | '/' | '/_layout' | '/about' | '/users/' | '/_layout/movies/'
+  to: '/' | '' | '/about' | '/movies'
+  id: '__root__' | '/' | '/_layout' | '/about' | '/_layout/movies/'
   fileRoutesById: FileRoutesById
 }
 
@@ -148,14 +131,12 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   LayoutRoute: typeof LayoutRouteWithChildren
   AboutLazyRoute: typeof AboutLazyRoute
-  UsersIndexLazyRoute: typeof UsersIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   LayoutRoute: LayoutRouteWithChildren,
   AboutLazyRoute: AboutLazyRoute,
-  UsersIndexLazyRoute: UsersIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -170,8 +151,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_layout",
-        "/about",
-        "/users/"
+        "/about"
       ]
     },
     "/": {
@@ -185,9 +165,6 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
-    },
-    "/users/": {
-      "filePath": "users/index.lazy.tsx"
     },
     "/_layout/movies/": {
       "filePath": "_layout/movies/index.lazy.tsx",
