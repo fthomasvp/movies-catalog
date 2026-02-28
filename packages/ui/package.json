@@ -26,9 +26,9 @@
     "storybook:build": "storybook build"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "4.1.18"
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.4",
@@ -40,8 +40,8 @@
     "@storybook/react-vite": "8.6.0-alpha.0",
     "@storybook/test": "8.6.0-alpha.0",
     "@tailwindcss/vite": "4.1.18",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.3.4",
     "class-variance-authority": "^0.7.1",
     "glob": "13.0.5",
