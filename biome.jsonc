@@ -20,7 +20,8 @@
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "warn"
-      }
+      },
+      "correctness": { "noUnusedImports": "error" }
     }
   },
   "javascript": {

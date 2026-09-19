@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as MoviesLayoutImport } from './routes/movies/_layout'
+import { Route as MoviesLayoutIndexImport } from './routes/movies/_layout/index'
 
 // Create Virtual Routes
 
@@ -21,7 +22,6 @@ const MoviesImport = createFileRoute('/movies')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 const UsersIndexLazyImport = createFileRoute('/users/')()
-const MoviesLayoutIndexLazyImport = createFileRoute('/movies/_layout/')()
 
 // Create/Update Routes
 
@@ -54,7 +54,7 @@ const MoviesLayoutRoute = MoviesLayoutImport.update({
   getParentRoute: () => MoviesRoute,
 } as any)
 
-const MoviesLayoutIndexLazyRoute = MoviesLayoutIndexLazyImport.update({
+const MoviesLayoutIndexRoute = MoviesLayoutIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => MoviesLayoutRoute,
@@ -105,7 +105,7 @@ declare module '@tanstack/react-router' {
       id: '/movies/_layout/'
       path: '/'
       fullPath: '/movies/'
-      preLoaderRoute: typeof MoviesLayoutIndexLazyImport
+      preLoaderRoute: typeof MoviesLayoutIndexImport
       parentRoute: typeof MoviesLayoutImport
     }
   }
@@ -114,11 +114,11 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface MoviesLayoutRouteChildren {
-  MoviesLayoutIndexLazyRoute: typeof MoviesLayoutIndexLazyRoute
+  MoviesLayoutIndexRoute: typeof MoviesLayoutIndexRoute
 }
 
 const MoviesLayoutRouteChildren: MoviesLayoutRouteChildren = {
-  MoviesLayoutIndexLazyRoute: MoviesLayoutIndexLazyRoute,
+  MoviesLayoutIndexRoute: MoviesLayoutIndexRoute,
 }
 
 const MoviesLayoutRouteWithChildren = MoviesLayoutRoute._addFileChildren(
@@ -141,13 +141,13 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutLazyRoute
   '/movies': typeof MoviesLayoutRouteWithChildren
   '/users': typeof UsersIndexLazyRoute
-  '/movies/': typeof MoviesLayoutIndexLazyRoute
+  '/movies/': typeof MoviesLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
-  '/movies': typeof MoviesLayoutIndexLazyRoute
+  '/movies': typeof MoviesLayoutIndexRoute
   '/users': typeof UsersIndexLazyRoute
 }
 
@@ -158,7 +158,7 @@ export interface FileRoutesById {
   '/movies': typeof MoviesRouteWithChildren
   '/movies/_layout': typeof MoviesLayoutRouteWithChildren
   '/users/': typeof UsersIndexLazyRoute
-  '/movies/_layout/': typeof MoviesLayoutIndexLazyRoute
+  '/movies/_layout/': typeof MoviesLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -230,7 +230,7 @@ export const routeTree = rootRoute
       "filePath": "users/index.lazy.tsx"
     },
     "/movies/_layout/": {
-      "filePath": "movies/_layout/index.lazy.tsx",
+      "filePath": "movies/_layout/index.tsx",
       "parent": "/movies/_layout"
     }
   }
