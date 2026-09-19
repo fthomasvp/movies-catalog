@@ -1,9 +1,10 @@
 import compression from "compression";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
 
-import { errorHandler, networkTracer } from "./middlewares";
+import { errorHandler } from "./middlewares";
 import { authRouterV1, moviesRouterV1, usersRouterV1 } from "./routes/v1";
 
 export const app: Express = express();
@@ -13,6 +14,7 @@ app.use(helmet());
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // [Security]
 app.disable("x-powered-by");
